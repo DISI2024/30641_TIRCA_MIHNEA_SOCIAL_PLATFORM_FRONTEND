@@ -5,7 +5,7 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
-import './Navbar.css';
+import '../styles/Navbar.css';
 const Navbar = () =>{
     return (
         <div className="navbar">

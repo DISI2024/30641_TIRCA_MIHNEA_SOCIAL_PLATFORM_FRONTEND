@@ -1,16 +1,30 @@
 import {Outlet} from 'react-router-dom'
 import {Stack} from "@mui/material";
 import React from 'react'
+import Navbar from "../../components/overlay/components/Navbar";
+import Rightbar from "../../components/overlay/components/Rightbar";
+import {useIsLoggedIn} from "../../redux/slices/security/selectors";
+import Leftbar from "../../components/overlay/components/Leftbar";
 
-//todo ce e in afara Outlet va aparea mereu pe ecran
+//ce e in afara Outlet va aparea mereu pe ecran
 const Layout = () => {
+    const loggedIn = useIsLoggedIn();
+
+
     return (
-        <Stack>
-            {/*{useIsLoggedIn() && <Header/>}*/}
-            <div style={{marginTop: 80}}>
+        loggedIn ? (
+                <Stack>
+                    <Navbar/>
+                    <div style={{display: "flex"}}>
+                        <Leftbar/>
+                        <Outlet/>
+                        <Rightbar/>
+                    </div>
+                </Stack>
+            )
+            : (
                 <Outlet/>
-            </div>
-        </Stack>
+            )
     )
 }
 

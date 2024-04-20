@@ -1,5 +1,5 @@
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
-import './Post.css';
+import '../styles/Post.css';
 const Post = ({post}) => {
     return(
         <div className="post">

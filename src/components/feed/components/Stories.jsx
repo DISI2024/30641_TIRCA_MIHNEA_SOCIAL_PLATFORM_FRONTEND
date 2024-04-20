@@ -1,4 +1,4 @@
-import "../Stories/Stories.css";
+import "../styles/Stories.css";
 
 const Stories = () => {
 

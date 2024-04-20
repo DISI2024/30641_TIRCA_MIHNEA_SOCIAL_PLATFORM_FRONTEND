@@ -1,3 +1,11 @@
+Project structure:
+src/
+    components/
+        Login/
+            ...
+        Navbar/
+            ...
+
 Security:
 
 To log in/logout:

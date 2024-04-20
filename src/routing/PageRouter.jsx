@@ -3,7 +3,7 @@ import Layout from "./components/Layout";
 import ChatPage from "../components/chat/ChatPage";
 import Login from "../components/login/components/Login";
 import React from 'react'
-import Home from "../components/home/components/Home";
+import Feed from "../components/feed/components/Feed";
 
 const pageRouter = createSecuredRouter([
     {
@@ -17,7 +17,7 @@ const pageRouter = createSecuredRouter([
             },
             {
                 path: '/home',
-                element: <Home/>
+                element: <Feed/>
             },
             {
                 path: '/chat',
