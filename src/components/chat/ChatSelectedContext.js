@@ -2,7 +2,8 @@ import React from 'react'
 
 const ChatSelectedContext = React.createContext({
     selectedChat: -1,
-    setSelectedChat: () => { }
+    setSelectedChat: () => {
+    }
 });
 
 export default ChatSelectedContext;

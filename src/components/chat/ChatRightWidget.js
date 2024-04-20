@@ -1,8 +1,8 @@
 import React from 'react';
-import { Typography, Grid, TextField, Button, AppBar, Toolbar } from '@mui/material';
+import {Typography, Grid, TextField, Button, AppBar, Toolbar} from '@mui/material';
 import ChatSelectedContext from './ChatSelectedContext';
 import SockJS from 'sockjs-client';
-import { Stomp } from '@stomp/stompjs';
+import {Stomp} from '@stomp/stompjs';
 import axios from 'axios';
 import ChatPrivateMessage from './ChatPrivateMessage';
 import * as ChatApi from './ChatsApi';
@@ -11,21 +11,21 @@ var chatStompClient = null;
 var chatSubscriptionObject = null;
 export default function ChatRightWidget() {
 
-    const { selectedChatState, setSelectedChatState } = React.useContext(ChatSelectedContext);
+    const {selectedChatState, setSelectedChatState} = React.useContext(ChatSelectedContext);
 
     const [messageTextState, setMessageTextState] = React.useState("");
     const [chatContent, setChatContent] = React.useState(null);
 
-   const handleChange = (event) => {
-    event.preventDefault();
-    setMessageTextState(event.target.value);
-   };
+    const handleChange = (event) => {
+        event.preventDefault();
+        setMessageTextState(event.target.value);
+    };
 
-   const handleSendClick = (event) => {
+    const handleSendClick = (event) => {
         event.preventDefault();
 
         const userAccount = JSON.parse(localStorage.getItem("user"));
-        
+
         // if (groupSelectedState === false) {
         //     const jsonPayload = {
         //         "senderUserProfileId": userAccount["userProfileId"],
@@ -60,9 +60,9 @@ export default function ChatRightWidget() {
             chatStompClient.send("/app/message", {}, JSON.stringify(jsonPayload));
 
         setMessageTextState("");
-   };
+    };
 
-   const connectToPrivateChat = () => {
+    const connectToPrivateChat = () => {
         if (selectedChatState !== -1) {
             if (chatSubscriptionObject !== null)
                 chatSubscriptionObject.unsubscribe();
@@ -105,7 +105,7 @@ export default function ChatRightWidget() {
                     // else {
                     //     setChatContent(current => [...current, responseData]);
                     // }
-                    
+
                     setChatContent(current => [...current, responseData]);
 
                 })
@@ -113,7 +113,7 @@ export default function ChatRightWidget() {
             }, () => {
                 console.log("Nu ne-am putut conecta cu STOMP")
             });
-       }
+        }
     };
 
     React.useEffect(() => {
@@ -122,10 +122,10 @@ export default function ChatRightWidget() {
 
     return (
         <>
-            <div style={{ height: 700, overflowY: 'scroll'}}>
+            <div style={{height: 700, overflowY: 'scroll'}}>
                 <AppBar position="static">
                     <Toolbar>
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                             {selectedChatState}
                         </Typography>
                     </Toolbar>
@@ -133,17 +133,18 @@ export default function ChatRightWidget() {
 
                 <Grid container spacing={2}>
                     {chatContent && chatContent.map((chatMessage, index) => {
-                        return <ChatPrivateMessage message={chatMessage} key={index} />;
+                        return <ChatPrivateMessage message={chatMessage} key={index}/>;
                     })}
                 </Grid>
             </div>
 
             <Grid container spacing={3}>
                 <Grid item sm={10}>
-                    <TextField sx={{ width: "100%"}} variant="outlined" label="Text message" id="content" value={messageTextState} onChange={handleChange}></TextField>
+                    <TextField sx={{width: "100%"}} variant="outlined" label="Text message" id="content"
+                               value={messageTextState} onChange={handleChange}></TextField>
                 </Grid>
                 <Grid item sm={2}>
-                    <Button sx={{ width: "100%" }} variant="contained" onClick={handleSendClick}>Send the message</Button>               
+                    <Button sx={{width: "100%"}} variant="contained" onClick={handleSendClick}>Send the message</Button>
                 </Grid>
             </Grid>
 

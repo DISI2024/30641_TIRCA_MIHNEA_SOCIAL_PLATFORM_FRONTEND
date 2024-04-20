@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid, Typography } from '@mui/material';
+import {Grid} from '@mui/material';
 import ChatPrivateList from './ChatPrivateList';
 
 export default function ChatsTab() {
@@ -11,7 +11,7 @@ export default function ChatsTab() {
     // }
 
     return (
-        <div style={{ width: '100%' }}>
+        <div style={{width: '100%'}}>
             <Grid container spacing={3}>
                 <Grid item sm={12}>
                     <ChatPrivateList/>
