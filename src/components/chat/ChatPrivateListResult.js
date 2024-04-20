@@ -1,19 +1,19 @@
 import React from 'react';
-import { ListItem, ListItemAvatar, Avatar, ListItemText, Typography, Divider, Button } from '@mui/material';
+import {ListItem, ListItemAvatar, Avatar, ListItemText, Typography, Divider} from '@mui/material';
 import ChatSelectedContext from './ChatSelectedContext';
 import axios from 'axios';
 import * as ChatApi from './ChatsApi';
 
-export default function ChatPrivateListResult({ userProfile }) {
+export default function ChatPrivateListResult({userProfile}) {
 
     const [mostRecentMessageState, setMostRecentMessageState] = React.useState([]);
-    const { selectedChatState, setSelectedChatState } = React.useContext(ChatSelectedContext);
+    const {selectedChatState, setSelectedChatState} = React.useContext(ChatSelectedContext);
 
     const currentUser = JSON.parse(localStorage.getItem("user"));
 
     React.useEffect(() => {
         setInterval(() => {
-            
+
             const jsonPayload = {
                 "firstUserProfileId": currentUser["userProfileId"],
                 "secondUserProfileId": userProfile["id"]
@@ -48,18 +48,18 @@ export default function ChatPrivateListResult({ userProfile }) {
         <>
             {/* <ListItem alignItems="flex-start" onClick={handleChatChange} */}
             <ListItem alignItems="flex-start" onClick={handleChatChange}
-                sx={{
-                    backgroundColor: (mostRecentMessageState && mostRecentMessageState["receiverUserProfile"] && mostRecentMessageState["receiverUserProfile"]["id"] ==
-                        currentUser["userProfileId"] && mostRecentMessageState["seenByReceiver"] === false) ? 'green' : 'white'
-                }}>
+                      sx={{
+                          backgroundColor: (mostRecentMessageState && mostRecentMessageState["receiverUserProfile"] && mostRecentMessageState["receiverUserProfile"]["id"] ==
+                              currentUser["userProfileId"] && mostRecentMessageState["seenByReceiver"] === false) ? 'green' : 'white'
+                      }}>
                 <ListItemAvatar>
-                    <Avatar />
+                    <Avatar/>
                 </ListItemAvatar>
                 <ListItemText
                     secondary={mostRecentMessageState &&
                         <React.Fragment>
                             <Typography
-                                sx={{ display: 'inline' }}
+                                sx={{display: 'inline'}}
                                 component="span"
                                 variant="body2"
                                 color="text.primary"
@@ -73,7 +73,7 @@ export default function ChatPrivateListResult({ userProfile }) {
                     primary={
                         <React.Fragment>
                             <Typography
-                                sx={{ display: 'inline' }}
+                                sx={{display: 'inline'}}
                                 component="span"
                                 variant="body3"
                                 color="text.primary"
@@ -85,7 +85,7 @@ export default function ChatPrivateListResult({ userProfile }) {
                     }
                 />
             </ListItem>
-            <Divider variant="inset" component="li" />
+            <Divider variant="inset" component="li"/>
         </>
     )
 }

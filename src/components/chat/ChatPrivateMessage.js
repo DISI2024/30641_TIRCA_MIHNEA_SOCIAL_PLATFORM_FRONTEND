@@ -1,12 +1,12 @@
 import React from 'react';
-import { Grid, Card, CardContent, Typography, CardMedia } from '@mui/material';
+import {Grid, Card, CardContent, Typography} from '@mui/material';
 
-export default function ChatPrivateMessage({ message }) {
+export default function ChatPrivateMessage({message}) {
 
     const userAccount = JSON.parse(localStorage.getItem("user"));
-    
+
     return (
-        <Grid item xs={12} >
+        <Grid item xs={12}>
             <Card
                 sx={{
                     backgroundColor: (userAccount["userProfileId"] === message["senderUserProfile"]["id"]) ? '#FFFFFF' : '#DCF8C6',

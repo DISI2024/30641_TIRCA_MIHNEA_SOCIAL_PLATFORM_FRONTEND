@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, Tabs, Tab, Typography } from '@mui/material';
-import { TabPanel, TabContext, TabList } from '@mui/lab/';
+import {Box, Tab} from '@mui/material';
+import {TabPanel, TabContext, TabList} from '@mui/lab/';
 import ChatsTab from './ChatsTab';
 
 export default function ChatLeftWidget() {
@@ -12,11 +12,11 @@ export default function ChatLeftWidget() {
     }
 
     return (
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{width: '100%'}}>
             <TabContext value={tabsValue}>
-                <Box sx={{ borderBottom: 1, width: '100%' }}>
-                    <TabList onChange={handleChange} sx={{ width: '100%' }}>
-                        <Tab label="Chats" value="1" sx={{ width: '25%' }} />
+                <Box sx={{borderBottom: 1, width: '100%'}}>
+                    <TabList onChange={handleChange} sx={{width: '100%'}}>
+                        <Tab label="Chats" value="1" sx={{width: '25%'}}/>
                         {/* <Tab label="Chats" value="2" sx={{ width: '25%' }} />
                         <Tab label="Groups" value="3" sx={{ width: '25%' }} />
                         <Tab label="Requests" value="4" sx={{ width: '25%' }} /> */}
