@@ -2,7 +2,7 @@ import {useAppSelector} from "./hooks";
 import {
     selectAuthorization,
     selectFirstName,
-    selectIsLoggedIn,
+    selectIsLoggedIn, selectLastName,
     selectToken,
     selectUserId,
     selectUsername
