@@ -6,7 +6,11 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import '../styles/Navbar.css';
+import {axiosInstance} from "../../../axios/axios";
+import {useToken} from "../../../redux/slices/security/selectors";
 const Navbar = () =>{
+    axiosInstance.defaults.headers.common['Authorization'] = useToken();
+
     return (
         <div className="navbar">
             <div className="left">
