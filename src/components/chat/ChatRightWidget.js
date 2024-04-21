@@ -6,15 +6,18 @@ import {Stomp} from '@stomp/stompjs';
 import axios from 'axios';
 import ChatPrivateMessage from './ChatPrivateMessage';
 import * as ChatApi from './ChatsApi';
+import { useUserId } from '../../redux/slices/security/selectors';
 
 var chatStompClient = null;
 var chatSubscriptionObject = null;
+var updateInterval = null;
 export default function ChatRightWidget() {
 
     const {selectedChatState, setSelectedChatState} = React.useContext(ChatSelectedContext);
 
     const [messageTextState, setMessageTextState] = React.useState("");
     const [chatContent, setChatContent] = React.useState(null);
+    const currentUserId = useUserId();
 
     const handleChange = (event) => {
         event.preventDefault();
@@ -24,8 +27,8 @@ export default function ChatRightWidget() {
     const handleSendClick = (event) => {
         event.preventDefault();
 
-        const userAccount = JSON.parse(localStorage.getItem("user"));
-
+        // const userAccount = JSON.parse(localStorage.getItem("user"));
+        
         // if (groupSelectedState === false) {
         //     const jsonPayload = {
         //         "senderUserProfileId": userAccount["userProfileId"],
@@ -51,10 +54,13 @@ export default function ChatRightWidget() {
         // }
 
         const jsonPayload = {
-            "senderUserProfileId": userAccount["userProfileId"],
+            "senderUserProfileId": currentUserId,
             "receiverUserProfileId": selectedChatState,
             "content": messageTextState
         };
+
+        console.log("Find all messages payload: ");
+        console.log(jsonPayload);
 
         if (selectedChatState !== -1)
             chatStompClient.send("/app/message", {}, JSON.stringify(jsonPayload));
@@ -69,7 +75,7 @@ export default function ChatRightWidget() {
 
             const userAccount = JSON.parse(localStorage.getItem("user"));
             const jsonPayload = {
-                "firstUserProfileId": userAccount["userProfileId"],
+                "firstUserProfileId": currentUserId,
                 "secondUserProfileId": selectedChatState
             }
 
@@ -83,7 +89,7 @@ export default function ChatRightWidget() {
             chatStompClient = Stomp.over(socket);
             chatStompClient.connect({}, () => {
                 console.log("STOMP s-a conectat ok");
-                const destination = '/user/' + selectedChatState + '/' + userAccount["userProfileId"] + '/messages';
+                const destination = '/user/' + selectedChatState + '/' + currentUserId + '/messages';
                 chatSubscriptionObject = chatStompClient.subscribe(destination, (response) => {
                     const responseData = JSON.parse(response.body);
                     console.log(responseData);
@@ -118,6 +124,22 @@ export default function ChatRightWidget() {
 
     React.useEffect(() => {
         connectToPrivateChat();
+
+        if (updateInterval !== null)
+            clearInterval(updateInterval);
+
+            updateInterval = setInterval(() => {
+                
+                const jsonPayload = {
+                    "firstUserProfileId": currentUserId,
+                    "secondUserProfileId": selectedChatState
+                };
+
+                if (selectedChatState !== -1) {
+                    axios.post(ChatApi.MARK_ALL_RECEIVED_MESSAGES_AS_SEEN, jsonPayload);
+                }
+            }, 1000);
+
     }, [selectedChatState]);
 
     return (

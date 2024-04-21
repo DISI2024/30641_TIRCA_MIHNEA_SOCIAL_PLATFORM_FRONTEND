@@ -3,19 +3,21 @@ import {ListItem, ListItemAvatar, Avatar, ListItemText, Typography, Divider} fro
 import ChatSelectedContext from './ChatSelectedContext';
 import axios from 'axios';
 import * as ChatApi from './ChatsApi';
+import { useUserId } from '../../redux/slices/security/selectors';
 
 export default function ChatPrivateListResult({userProfile}) {
 
     const [mostRecentMessageState, setMostRecentMessageState] = React.useState([]);
     const {selectedChatState, setSelectedChatState} = React.useContext(ChatSelectedContext);
 
-    const currentUser = JSON.parse(localStorage.getItem("user"));
+    // const currentUser = JSON.parse(localStorage.getItem("user"));
+    const currentUserId = useUserId();
 
     React.useEffect(() => {
         setInterval(() => {
 
             const jsonPayload = {
-                "firstUserProfileId": currentUser["userProfileId"],
+                "firstUserProfileId": currentUserId,
                 "secondUserProfileId": userProfile["id"]
             }
 
@@ -37,7 +39,7 @@ export default function ChatPrivateListResult({userProfile}) {
 
         var ret = "";
 
-        if (mostRecentMessageState["senderUserProfile"] && mostRecentMessageState["senderUserProfile"]["id"] == currentUser["userProfileId"])
+        if (mostRecentMessageState["senderUserProfile"] && mostRecentMessageState["senderUserProfile"]["id"] == currentUserId)
             ret += "You: ";
 
         ret += mostRecentMessageState["content"];
@@ -50,7 +52,7 @@ export default function ChatPrivateListResult({userProfile}) {
             <ListItem alignItems="flex-start" onClick={handleChatChange}
                       sx={{
                           backgroundColor: (mostRecentMessageState && mostRecentMessageState["receiverUserProfile"] && mostRecentMessageState["receiverUserProfile"]["id"] ==
-                              currentUser["userProfileId"] && mostRecentMessageState["seenByReceiver"] === false) ? 'green' : 'white'
+                              currentUserId && mostRecentMessageState["seenByReceiver"] === false) ? 'green' : 'white'
                       }}>
                 <ListItemAvatar>
                     <Avatar/>
