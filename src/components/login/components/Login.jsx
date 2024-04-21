@@ -49,6 +49,10 @@ export default function Login() {
         setCredentials(defaultCredentials);
     }
 
+    const handleRegister = () => {
+        navigate('/register');
+    };
+
     return (
         <Grid container component="main" sx={{height: '100vh'}}>
             <Grid
@@ -112,6 +116,14 @@ export default function Login() {
                             sx={{mt: 3, mb: 2}}
                         >
                             Sign In
+                        </Button>
+                        <Button
+                            fullWidth
+                            variant="outlined"
+                            sx={{mt: 2, mb: 2}}
+                            onClick={handleRegister}
+                        >
+                            Register
                         </Button>
                     </Box>
                 </Box>
