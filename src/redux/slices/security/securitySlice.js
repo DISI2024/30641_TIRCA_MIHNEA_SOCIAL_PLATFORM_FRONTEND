@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {getUserData, logIn} from "./api";
+import axios from 'axios';
 
 const initState = () => {
     return {
@@ -17,6 +18,16 @@ export const authenticate = createAsyncThunk(
             .catch((error) => {
                 throw new Error(error)
             })
+
+        axios.interceptors.request.use(
+            (request) => {
+                request.headers['Authorization'] = token;
+                return request;
+            },
+            (error) => {
+                return Promise.reject(error);
+            }
+        )
         const userData = await getUserData(token);
         return {token: token, userData: userData};
     })

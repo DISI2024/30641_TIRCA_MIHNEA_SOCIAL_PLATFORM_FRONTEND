@@ -17,6 +17,7 @@ const Navbar = () => {
 
     const goToHome = () => navigate('/home');
     const goToProfile = () => navigate('/profile'); 
+    const goToChat = () => navigate('/chat');
 
     const handleLogout = () => {
         dispatch(logout());
@@ -37,7 +38,7 @@ const Navbar = () => {
 
             <div className="right">
                 <LogoutIcon onClick={handleLogout} style={{ cursor: 'pointer' }} />
-                <ChatOutlinedIcon />
+                <ChatOutlinedIcon onClick={goToChat} style={{ cursor: 'pointer'}}/>
                 <div className="user" onClick={goToProfile} style={{ cursor: 'pointer' }}>
                     <img src="https://imgv3.fotor.com/images/blog-richtext-image/10-profile-picture-ideas-to-make-you-stand-out.jpg" alt="User Profile"/>
                     <span>John Doe</span>
