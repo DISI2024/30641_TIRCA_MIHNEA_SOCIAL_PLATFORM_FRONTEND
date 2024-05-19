@@ -1,11 +1,25 @@
 import React from 'react';
-import {Grid, Card, CardContent, Typography} from '@mui/material';
+import {Grid, Card, CardContent, Typography, CardMedia} from '@mui/material';
 import { useUserId } from '../../redux/slices/security/selectors';
 
 export default function ChatPrivateMessage({message}) {
 
     // const userAccount = JSON.parse(localStorage.getItem("user"));
     const currentUserId = useUserId();
+    const [imageUrlState, setImageUrlState] = React.useState();
+    const [soundUrlState, setSoundUrlState] = React.useState("");
+
+    React.useEffect(() => {
+        if (message["imageData"]) {
+            console.log(message["imageData"]);
+            setImageUrlState(`data:image/png;base64,${message["imageData"]}`);
+        }
+        
+        if (message["soundData"]) {
+            setSoundUrlState(`data:audio/mp3;base64,${message["soundData"]}`);
+        }
+    }, []);
+
 
     return (
         <Grid item xs={12}>
@@ -28,6 +42,13 @@ export default function ChatPrivateMessage({message}) {
                         {message["content"]}
                     </Typography>
                 </CardContent>
+                { message["imageData"] !== undefined && <CardMedia component="img" image={imageUrlState} />}
+                {
+                    soundUrlState &&
+                    <audio controls>
+                        <source src={soundUrlState} type="audio/mp3"></source>
+                    </audio>
+                }
             </Card>
         </Grid>
     );

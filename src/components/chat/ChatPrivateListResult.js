@@ -41,8 +41,15 @@ export default function ChatPrivateListResult({userProfile}) {
 
         if (mostRecentMessageState["senderUserProfile"] && mostRecentMessageState["senderUserProfile"]["id"] == currentUserId)
             ret += "You: ";
+        
+        if (mostRecentMessageState["imageData"] !== undefined 
+            || mostRecentMessageState["soundData"] !== undefined
+        )
+            ret += "Media File";
 
-        ret += mostRecentMessageState["content"];
+        else
+            ret += mostRecentMessageState["content"];
+        
         return ret;
     }
 
