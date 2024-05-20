@@ -13,7 +13,7 @@ import {useAppDispatch} from "../../../redux/slices/security/hooks";
 import {authenticate} from "../../../redux/slices/security/securitySlice";
 
 const defaultCredentials = {
-    username: '',
+    identifier: '',
     password: ''
 }
 
@@ -32,7 +32,7 @@ export default function Login() {
     const handleUsernameChange = (event) => {
         setCredentials({
             ...credentials,
-            username: event.target.value
+            identifier: event.target.value
         });
     }
 

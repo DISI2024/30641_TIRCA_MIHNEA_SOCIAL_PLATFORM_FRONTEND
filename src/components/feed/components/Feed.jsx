@@ -1,9 +1,10 @@
 import Stories from "./Stories";
 import Posts from "./Posts";
+import CreatePost from "./CreatePost";
 const Feed = () => {
     return (
         <div className="home">
-            <Stories/>
+            <CreatePost/>
             <Posts/>
         </div>
     )
