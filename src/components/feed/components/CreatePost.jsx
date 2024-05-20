@@ -1,23 +1,15 @@
 import React, { useState } from 'react';
 import '../styles/CreatePost.css';
 
-const CreatePost = ({ onPostCreate }) => {
+const CreatePost = ({ onPostCreate, userProfile }) => {
     const [postContent, setPostContent] = useState('');
     const [image, setImage] = useState(null);
     const [imageName, setImageName] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (postContent.trim() || image) {
-            const newPost = {
-                id: Date.now(),
-                name: "User Name", // Replace with dynamic user name
-                userId: 3, // Replace with dynamic user ID
-                profilePic: "https://via.placeholder.com/40", // Replace with user's profile picture
-                desc: postContent,
-                img: image ? URL.createObjectURL(image) : null,
-            };
-            onPostCreate(newPost);
+            await onPostCreate(postContent, image);
             setPostContent('');
             setImage(null);
             setImageName('');

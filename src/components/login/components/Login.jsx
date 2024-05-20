@@ -91,7 +91,7 @@ export default function Login() {
                             required
                             fullWidth
                             id="username"
-                            label="Username"
+                            label="Username or Email"
                             name="username"
                             autoFocus
                             inputProps={{pattern: "[a-zA-Z0-9]+"}}
