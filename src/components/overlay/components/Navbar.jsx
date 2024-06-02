@@ -12,10 +12,13 @@ import '../styles/Navbar.css';
 import {logout} from "../../../redux/slices/security/securitySlice";
 import {axiosInstance} from "../../../axios/axios";
 import {useToken} from "../../../redux/slices/security/selectors";
+import FriendList from '../../friendList/friendlist';
+import { useState } from 'react';
 
 const Navbar = () => {
     const dispatch = useDispatch();
     let navigate = useNavigate();
+    const [isFriendListVisible, setFriendListVisible] = useState(false);
 
     const goToHome = () => navigate('/home');
     const goToProfile = () => navigate('/profile'); 
@@ -25,6 +28,12 @@ const Navbar = () => {
         dispatch(logout());
         navigate('/login');
     };
+
+    const toggleFriendList = () => {
+        setFriendListVisible(!isFriendListVisible);
+    };
+
+
     axiosInstance.defaults.headers.common['Authorization'] = useToken();
     return (
         <div className="navbar">
@@ -45,7 +54,10 @@ const Navbar = () => {
                     <img src="https://imgv3.fotor.com/images/blog-richtext-image/10-profile-picture-ideas-to-make-you-stand-out.jpg" alt="User Profile"/>
                     <span>John Doe</span>
                 </div>
+                <PersonOutlineOutlinedIcon onClick={toggleFriendList} style={{ cursor: 'pointer'}} />
             </div>
+
+            {isFriendListVisible && <FriendList />}
         </div>
     );
 }
