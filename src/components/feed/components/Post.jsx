@@ -1,29 +1,26 @@
-import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
+import React from 'react';
 import '../styles/Post.css';
-const Post = ({post}) => {
-    return(
+
+const Post = ({ post }) => {
+    return (
         <div className="post">
             <div className="container">
                 <div className="user">
                     <div className="userInfo">
-                        <img src={post.profilePic} alt=""/>
+                        <img src={post.profilePic} alt="" />
                         <div className="details">
                             <span className="name">{post.name}</span>
                             <span className="date">1 min ago</span>
                         </div>
                     </div>
-                    <MoreHorizOutlinedIcon></MoreHorizOutlinedIcon>
                 </div>
                 <div className="content">
                     <p>{post.desc}</p>
-                    <img src={post.img} alt="" />
-
+                    {post.img && <img src={`data:image/jpeg;base64,${post.img}`} alt="" />}
                 </div>
-                <div className="info"></div>
-
-
             </div>
         </div>
     );
-}
-export default Post
+};
+
+export default Post;

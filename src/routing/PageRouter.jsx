@@ -4,6 +4,7 @@ import ChatPage from "../components/chat/ChatPage";
 import Login from "../components/login/components/Login";
 import React from 'react'
 import Feed from "../components/feed/components/Feed";
+import UserProfile from "../components/profilepage/components/UserProfile";
 
 const pageRouter = createSecuredRouter([
     {
@@ -24,6 +25,12 @@ const pageRouter = createSecuredRouter([
                 element: <ChatPage/>,
                 authorization: "CLIENT",
             },
+            {
+                path: '/profile',
+                element: <UserProfile/>,
+                authorization: "CLIENT",
+            },
+
             //
             // {
             //     path: '/admin',

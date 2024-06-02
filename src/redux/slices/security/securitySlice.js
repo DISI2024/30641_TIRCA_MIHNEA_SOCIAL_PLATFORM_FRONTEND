@@ -79,6 +79,11 @@ export const selectFirstName = (state) => {
 export const selectLastName = (state) => {
     return state.security.userData ? state.security.userData.lastName : null
 }
+
+export const selectProfilePictureUrl = (state) => {
+    return state.security.userData ? state.security.userData.profilePictureUrl : null;
+}
+
 export const selectToken = (state) => state.security.token
 export const selectIsLoggedIn = (state) => state.security.loginStatus === 'loggedIn'
 

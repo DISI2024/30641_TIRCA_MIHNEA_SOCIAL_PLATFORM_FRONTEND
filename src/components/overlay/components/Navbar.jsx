@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
@@ -9,15 +9,25 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
 import '../styles/Navbar.css';
-import {logout} from "../../../redux/slices/security/securitySlice";
+import {
+    logout,
+    selectFirstName,
+    selectLastName,
+    selectProfilePictureUrl,
+    selectToken
+} from "../../../redux/slices/security/securitySlice";
 import {axiosInstance} from "../../../axios/axios";
-import {useToken} from "../../../redux/slices/security/selectors";
+import {useFirstName, useLastName, useToken} from "../../../redux/slices/security/selectors";
 import FriendList from '../../friendList/friendlist';
 import { useState } from 'react';
 
 const Navbar = () => {
     const dispatch = useDispatch();
-    let navigate = useNavigate();
+    const navigate = useNavigate();
+    const firstName = useFirstName();
+    const lastName = useLastName();
+    const token = useToken();
+
     const [isFriendListVisible, setFriendListVisible] = useState(false);
 
     const goToHome = () => navigate('/home');
@@ -52,7 +62,7 @@ const Navbar = () => {
                 <ChatOutlinedIcon onClick={goToChat} style={{ cursor: 'pointer'}}/>
                 <div className="user" onClick={goToProfile} style={{ cursor: 'pointer' }}>
                     <img src="https://imgv3.fotor.com/images/blog-richtext-image/10-profile-picture-ideas-to-make-you-stand-out.jpg" alt="User Profile"/>
-                    <span>John Doe</span>
+                    <span>{firstName} {lastName}</span>
                 </div>
                 <PersonOutlineOutlinedIcon onClick={toggleFriendList} style={{ cursor: 'pointer'}} />
             </div>

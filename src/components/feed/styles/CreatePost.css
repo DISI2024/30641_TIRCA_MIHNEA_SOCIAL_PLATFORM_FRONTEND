@@ -1,0 +1,67 @@
+/* CreatePost.css */
+.createPost {
+    padding: 20px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+    margin-bottom: 20px;
+}
+
+.createPost form {
+    display: flex;
+    flex-direction: column;
+}
+
+.createPost textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    resize: none;
+    font-size: 14px;
+}
+
+.createPost .fileInputContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.customFileInput {
+    display: inline-block;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: #3b5998;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+}
+
+.customFileInput:hover {
+    background-color: #365492;
+}
+
+.imageName {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.createPost button {
+    align-self: flex-end;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #3b5998;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.createPost button:hover {
+    background-color: #365492;
+}
