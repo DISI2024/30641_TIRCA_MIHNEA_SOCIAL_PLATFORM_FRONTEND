@@ -275,7 +275,7 @@ export default function ChatRightWidget() {
                 </AppBar>
             } */}
 
-                <div style={{height: 700, overflowY: 'scroll'}}>
+                <div style={{height: 450, overflowY: 'scroll'}}>
                     <AppBar position="static">
                         <Toolbar sx={{ justifyContent: 'center' }}>
                             <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
