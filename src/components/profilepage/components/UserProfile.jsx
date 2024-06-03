@@ -119,6 +119,7 @@ const UserProfile = () => {
     const [loading, setLoading] = useState(true);
     const [editing, setEditing] = useState(false);
     const [description, setDescription] = useState('');
+    const [friendUsername, setFriendUsername] = useState('');
     const defaultProfilePicture = 'https://imgv3.fotor.com/images/blog-richtext-image/10-profile-picture-ideas-to-make-you-stand-out.jpg';
 
     useEffect(() => {
@@ -169,6 +170,36 @@ const UserProfile = () => {
         setEditing(false);
     };
 
+    const handleAddFriend = async () => {
+        try {
+            const response = await axiosInstance.post(`/api/userFriend/${friendUsername}/createFriendRequest`, 
+                { username: friendUsername }
+            );
+            // Update the userProfile or show a success message
+            console.log('Friend added:', response.data);
+            console.log('Username: ', friendUsername)
+            setFriendUsername('');
+        } catch (error) {
+            console.error('Error adding friend:', error);
+        }
+    };
+
+    const handleRemoveFriend = async () => {
+        try {
+            const response = await axiosInstance.delete(`/api/userFriend/${friendUsername}/removeFriend`, 
+                { data: { username: friendUsername }, 
+                headers: {
+                    Authorization: `${token}`
+                }}
+            );
+            // Update the userProfile or show a success message
+            console.log('Friend removed:', response.data);
+            setFriendUsername('');
+        } catch (error) {
+            console.error('Error removing friend:', error);
+        }
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -216,6 +247,14 @@ const UserProfile = () => {
                 <div className="card">
                     <p><strong>Friends:</strong></p>
                     <p>No friends yet.</p>
+                    <input
+                        type="text"
+                        value={friendUsername}
+                        onChange={(e) => setFriendUsername(e.target.value)}
+                        placeholder="Enter username"
+                    />
+                    <button onClick={handleAddFriend}>Add Friend</button>
+                    <button onClick={handleRemoveFriend}>Remove Friend</button>
                 </div>
                 <div className="card">
                     <p><strong>Photos:</strong></p>
