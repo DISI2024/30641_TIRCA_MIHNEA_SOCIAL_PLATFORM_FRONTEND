@@ -27,7 +27,7 @@ import { useToken } from '../../redux/slices/security/selectors.js';
                     }
                 } catch (err) {
 
-                    setError('Failed to fetch friends.');
+                    setError('No friends :(.');
                 }
             };
     
