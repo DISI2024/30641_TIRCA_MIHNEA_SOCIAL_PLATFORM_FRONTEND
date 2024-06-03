@@ -244,7 +244,7 @@ export default function ChatRightWidget() {
 
     return (
         <>
-            {selectedChatState !== -1 ?    
+            {/* {selectedChatState !== -1 ?    
                 <div style={{height: 700, overflowY: 'scroll'}}>
                     <AppBar position="static">
                         <Toolbar sx={{ justifyContent: 'center' }}>
@@ -273,9 +273,27 @@ export default function ChatRightWidget() {
                             </Box>
                         </Toolbar>
                 </AppBar>
-            }
+            } */}
 
-            {selectedChatState !== -1 ? 
+                <div style={{height: 700, overflowY: 'scroll'}}>
+                    <AppBar position="static">
+                        <Toolbar sx={{ justifyContent: 'center' }}>
+                            <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+                                <Typography variant="h6" component="div">
+                                    {selectedChatState === -1 ? "No chat selected" : `${currentUserFirstName} ${currentUserLastName}`}
+                                </Typography>
+                            </Box>
+                        </Toolbar>
+                    </AppBar>
+
+                    <Grid container spacing={2}>
+                        {chatContent && chatContent.map((chatMessage, index) => {
+                            return <ChatPrivateMessage message={chatMessage} key={index}/>;
+                        })}
+                    </Grid>
+                </div>
+
+            {/* {selectedChatState !== -1 ? 
                     <Grid container spacing={3}>
                         <Grid item sm={10}>
                             <TextField sx={{width: "100%"}} variant="outlined" label="Text message" id="content"
@@ -351,8 +369,68 @@ export default function ChatRightWidget() {
                         backgroundPosition: 'center',
                     }}
                     />
-                }
+                } */}
 
+<Grid container spacing={3}>
+                        <Grid item sm={10}>
+                            <TextField sx={{width: "100%"}} variant="outlined" label="Text message" id="content"
+                                    value={messageTextState} onChange={handleChange}></TextField>
+                        </Grid>
+                        <Grid item sm={2}>
+                            <Button sx={{width: "100%"}} variant="contained" onClick={handleSendClick}>Send the message</Button>
+                        </Grid>
+                        <Grid item sm={3}>
+                            <div>
+                                <input id="myInput" type="file" onChange={(event) => { handleFileChange(event); }} ref={(ref) => upload = ref} style={{ display: 'none'}} />
+                                <Fab
+                                    className="floatingButton"
+                                    sx={{ backgroundColor: '#1976d2'}}
+                                    variant="extended"
+                                    onClick={(e) => upload.click()}
+                                >
+                                    <AddAPhoto />
+                                    Select Image
+                                </Fab>
+                            </div>
+                        </Grid>
+                        <Grid item sm={3}>
+                            <div>
+                                <Fab
+                                    className="floatingButton"
+                                    sx={{
+                                        backgroundColor: (isRecordingState) ? '#9f1f00' : '#1976d2',
+                                    }}
+                                    variant="extended"
+                                    onClick={(e) => {
+                                        (isRecordingState) ? (stopRecording(e)) : startRecording(e)
+                                    }}
+                                >
+                                    <AddAlarmRounded />
+                                    Record Audio
+                                </Fab>
+                            </div>
+                        </Grid>
+                        <Grid item sm={2}>
+                            <div>
+                                <Fab
+                                    className="floatiingButton"
+                                    sx={{ backgroundColor: '#1976d2' }}
+                                    variant="extended"
+                                    onClick={handleAudioUpload}
+                                >
+                                    <AddReaction />
+                                    Send vocal message
+                                </Fab>
+                            </div>
+                        </Grid>
+                        {audioUrlState &&
+                            <Grid item sm={2}>
+                                <audio controls key={audioUrlState}>
+                                    <source src={audioUrlState} type="audio/mp3" />
+                                </audio>
+                            </Grid>
+                        }
+                        </Grid>
         </>
     );
 }
