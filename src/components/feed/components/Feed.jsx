@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import CreatePost from './CreatePost';
 import Posts from './Posts';
-import {useFirstName, useLastName, useUserId} from "../../../redux/slices/security/selectors";
-import {axiosInstance} from "../../../axios/axios";
-
+import { useFirstName, useLastName, useUserId } from "../../../redux/slices/security/selectors";
+import { axiosInstance } from "../../../axios/axios";
 
 const Feed = () => {
     const [posts, setPosts] = useState([]);
