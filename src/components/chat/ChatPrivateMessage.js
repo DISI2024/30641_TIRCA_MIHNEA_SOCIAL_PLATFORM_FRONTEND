@@ -1,11 +1,16 @@
 import React from 'react';
 import {Grid, Card, CardContent, Typography, CardMedia} from '@mui/material';
 import { useUserId } from '../../redux/slices/security/selectors';
+import axios from 'axios';
+import * as ChatApi from './ChatsApi';
 
 export default function ChatPrivateMessage({message}) {
 
     // const userAccount = JSON.parse(localStorage.getItem("user"));
-    const currentUserId = useUserId();
+    // const currentUserId = useUserId();
+    const userId = useUserId();
+    const [currentUserId, setCurrentUserId] = React.useState();
+
     const [imageUrlState, setImageUrlState] = React.useState();
     const [soundUrlState, setSoundUrlState] = React.useState("");
 
@@ -18,6 +23,15 @@ export default function ChatPrivateMessage({message}) {
         if (message["soundData"]) {
             setSoundUrlState(`data:audio/mp3;base64,${message["soundData"]}`);
         }
+
+        const jsonPayload = {
+            "userId": userId
+        };
+        axios.post(ChatApi.GET_USER_PROFILE, jsonPayload).then(
+            (response) => {
+                setCurrentUserId(response.data["userId"])
+            }
+        );
     }, []);
 
 

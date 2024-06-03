@@ -7,3 +7,4 @@ export const IMAGE_MESSAGE_UPLOAD = MESSAGES_API + "/imageMessageUpload";
 export const VOCAL_MESSAGE_UPLOAD = MESSAGES_API + "/vocalMessageUpload";
 export const GET_ALL_USER_PROFILES = USERS_API + "/getAllUserProfiles";
 export const DUMMY_AUTH = USERS_API + "/dummyAuth";
+export const GET_USER_PROFILE = MESSAGES_API + "/getUserProfileId";

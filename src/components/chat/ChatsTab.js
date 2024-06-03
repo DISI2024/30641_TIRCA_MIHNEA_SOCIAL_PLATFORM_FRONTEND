@@ -15,7 +15,6 @@ export default function ChatsTab() {
             <Grid container spacing={3}>
                 <Grid item sm={12}>
                     <ChatPrivateList/>
-                    {/* <Typography>Private Chat</Typography> */}
                 </Grid>
             </Grid>
         </div>

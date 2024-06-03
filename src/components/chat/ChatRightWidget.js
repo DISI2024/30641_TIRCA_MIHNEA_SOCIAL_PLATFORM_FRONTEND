@@ -1,5 +1,5 @@
 import React from 'react';
-import {Typography, Grid, TextField, Button, AppBar, Toolbar} from '@mui/material';
+import {Typography, Grid, TextField, Button, AppBar, Toolbar, Box} from '@mui/material';
 import Fab from '@mui/material/Fab';
 import ChatSelectedContext from './ChatSelectedContext';
 import SockJS from 'sockjs-client';
@@ -7,7 +7,7 @@ import {Stomp} from '@stomp/stompjs';
 import axios from 'axios';
 import ChatPrivateMessage from './ChatPrivateMessage';
 import * as ChatApi from './ChatsApi';
-import { useUserId } from '../../redux/slices/security/selectors';
+import { useLastName, useFirstName, useUserId } from '../../redux/slices/security/selectors';
 import { AddAPhoto, AddReaction, AddAlarmRounded } from '@mui/icons-material';
 import MicRecorder from 'mic-recorder-to-mp3';
 
@@ -21,7 +21,13 @@ export default function ChatRightWidget() {
 
     const [messageTextState, setMessageTextState] = React.useState("");
     const [chatContent, setChatContent] = React.useState(null);
-    const currentUserId = useUserId();
+
+    // const currentUserId = useUserId();
+    const userId = useUserId();
+    const [currentUserId, setCurrentUserId] = React.useState();
+
+    const currentUserLastName = useLastName();
+    const currentUserFirstName = useFirstName();
 
     const [mp3RecorderState, setMp3RecorderState] = React.useState(null);
     const [isMicBlockedState, setIsMicBlockedState] = React.useState(false);
@@ -156,6 +162,16 @@ export default function ChatRightWidget() {
     };
 
     React.useEffect(() => {
+
+        const jsonPayload = {
+            "userId": userId
+        };
+        axios.post(ChatApi.GET_USER_PROFILE, jsonPayload).then(
+            (response) => {
+                setCurrentUserId(response.data["userId"])
+            }
+        );
+
         connectToPrivateChat();
 
         setMp3RecorderState(new MicRecorder({ bitrate: 128}));
@@ -183,6 +199,8 @@ export default function ChatRightWidget() {
                     axios.post(ChatApi.MARK_ALL_RECEIVED_MESSAGES_AS_SEEN, jsonPayload);
                 }
             }, 1000);
+        
+            
 
     }, [selectedChatState]);
 
@@ -226,82 +244,114 @@ export default function ChatRightWidget() {
 
     return (
         <>
-            <div style={{height: 700, overflowY: 'scroll'}}>
-                <AppBar position="static">
-                    <Toolbar>
-                        <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                            {selectedChatState}
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
+            {selectedChatState !== -1 ?    
+                <div style={{height: 700, overflowY: 'scroll'}}>
+                    <AppBar position="static">
+                        <Toolbar sx={{ justifyContent: 'center' }}>
+                            <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+                                <Typography variant="h6" component="div">
+                                    {selectedChatState === -1 ? "No chat selected" : `${currentUserFirstName} ${currentUserLastName}`}
+                                </Typography>
+                            </Box>
+                        </Toolbar>
+                    </AppBar>
 
-                <Grid container spacing={2}>
-                    {chatContent && chatContent.map((chatMessage, index) => {
-                        return <ChatPrivateMessage message={chatMessage} key={index}/>;
-                    })}
-                </Grid>
-            </div>
-
-            <Grid container spacing={3}>
-                <Grid item sm={10}>
-                    <TextField sx={{width: "100%"}} variant="outlined" label="Text message" id="content"
-                               value={messageTextState} onChange={handleChange}></TextField>
-                </Grid>
-                <Grid item sm={2}>
-                    <Button sx={{width: "100%"}} variant="contained" onClick={handleSendClick}>Send the message</Button>
-                </Grid>
-                <Grid item sm={3}>
-                    <div>
-                        <input id="myInput" type="file" onChange={(event) => { handleFileChange(event); }} ref={(ref) => upload = ref} style={{ display: 'none'}} />
-                        <Fab
-                            className="floatingButton"
-                            sx={{ backgroundColor: '#1976d2'}}
-                            variant="extended"
-                            onClick={(e) => upload.click()}
-                        >
-                            <AddAPhoto />
-                            Select Image
-                        </Fab>
-                    </div>
-                </Grid>
-                <Grid item sm={3}>
-                    <div>
-                        <Fab
-                            className="floatingButton"
-                            sx={{
-                                backgroundColor: (isRecordingState) ? '#9f1f00' : '#1976d2',
-                            }}
-                            variant="extended"
-                            onClick={(e) => {
-                                (isRecordingState) ? (stopRecording(e)) : startRecording(e)
-                            }}
-                        >
-                            <AddAlarmRounded />
-                            Record Audio
-                        </Fab>
-                    </div>
-                </Grid>
-                <Grid item sm={1}>
-                    <div>
-                        <Fab
-                            className="floatiingButton"
-                            sx={{ backgroundColor: '#1976d2' }}
-                            variant="extended"
-                            onClick={handleAudioUpload}
-                        >
-                            <AddReaction />
-                            Send vocal message
-                        </Fab>
-                    </div>
-                </Grid>
-                {audioUrlState &&
-                    <Grid item sm={2}>
-                        <audio controls key={audioUrlState}>
-                            <source src={audioUrlState} type="audio/mp3" />
-                        </audio>
+                    <Grid container spacing={2}>
+                        {chatContent && chatContent.map((chatMessage, index) => {
+                            return <ChatPrivateMessage message={chatMessage} key={index}/>;
+                        })}
                     </Grid>
+                </div>
+                :
+
+                <AppBar position="static">
+                        <Toolbar sx={{ justifyContent: 'center' }}>
+                            <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+                                <Typography variant="h6" component="div">
+                                    {selectedChatState === -1 ? "No chat selected" : `${currentUserFirstName} ${currentUserLastName}`}
+                                </Typography>
+                            </Box>
+                        </Toolbar>
+                </AppBar>
+            }
+
+            {selectedChatState !== -1 ? 
+                    <Grid container spacing={3}>
+                        <Grid item sm={10}>
+                            <TextField sx={{width: "100%"}} variant="outlined" label="Text message" id="content"
+                                    value={messageTextState} onChange={handleChange}></TextField>
+                        </Grid>
+                        <Grid item sm={2}>
+                            <Button sx={{width: "100%"}} variant="contained" onClick={handleSendClick}>Send the message</Button>
+                        </Grid>
+                        <Grid item sm={3}>
+                            <div>
+                                <input id="myInput" type="file" onChange={(event) => { handleFileChange(event); }} ref={(ref) => upload = ref} style={{ display: 'none'}} />
+                                <Fab
+                                    className="floatingButton"
+                                    sx={{ backgroundColor: '#1976d2'}}
+                                    variant="extended"
+                                    onClick={(e) => upload.click()}
+                                >
+                                    <AddAPhoto />
+                                    Select Image
+                                </Fab>
+                            </div>
+                        </Grid>
+                        <Grid item sm={3}>
+                            <div>
+                                <Fab
+                                    className="floatingButton"
+                                    sx={{
+                                        backgroundColor: (isRecordingState) ? '#9f1f00' : '#1976d2',
+                                    }}
+                                    variant="extended"
+                                    onClick={(e) => {
+                                        (isRecordingState) ? (stopRecording(e)) : startRecording(e)
+                                    }}
+                                >
+                                    <AddAlarmRounded />
+                                    Record Audio
+                                </Fab>
+                            </div>
+                        </Grid>
+                        <Grid item sm={2}>
+                            <div>
+                                <Fab
+                                    className="floatiingButton"
+                                    sx={{ backgroundColor: '#1976d2' }}
+                                    variant="extended"
+                                    onClick={handleAudioUpload}
+                                >
+                                    <AddReaction />
+                                    Send vocal message
+                                </Fab>
+                            </div>
+                        </Grid>
+                        {audioUrlState &&
+                            <Grid item sm={2}>
+                                <audio controls key={audioUrlState}>
+                                    <source src={audioUrlState} type="audio/mp3" />
+                                </audio>
+                            </Grid>
+                        }
+                    </Grid> : 
+                    <Box
+                    component="main"
+                    sx={{
+                        height: '100vh',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundImage: 'url(https://d1iiooxwdowqwr.cloudfront.net/pub/appsubmissions/20190806153212_icon.png)',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundColor: (t) =>
+                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                        backgroundSize: 'contain',
+                        backgroundPosition: 'center',
+                    }}
+                    />
                 }
-            </Grid>
 
         </>
     );

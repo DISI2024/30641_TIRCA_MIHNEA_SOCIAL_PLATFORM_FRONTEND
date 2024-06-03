@@ -94,7 +94,7 @@ export default function Login() {
                             label="Username or Email"
                             name="username"
                             autoFocus
-                            inputProps={{pattern: "[a-zA-Z0-9]+"}}
+                            inputProps={{pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$|^[a-zA-Z0-9]+$"}}
                             onChange={handleUsernameChange}
                         />
                         <TextField

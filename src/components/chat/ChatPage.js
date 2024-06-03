@@ -16,9 +16,6 @@ export default function ChatPage() {
                     <Box style={{height: '100%'}}>
                         <Card variant="outlined" style={{height: '100%'}}>
                             <CardContent>
-                                <Typography>
-                                    Your chats
-                                </Typography>
                                 <ChatLeftWidget/>
                             </CardContent>
                         </Card>
