@@ -11,9 +11,22 @@ export default function ChatPrivateListResult({userProfile}) {
     const {selectedChatState, setSelectedChatState} = React.useContext(ChatSelectedContext);
 
     // const currentUser = JSON.parse(localStorage.getItem("user"));
-    const currentUserId = useUserId();
+    // const currentUserId = useUserId();
+    const userId = useUserId();
+    const [currentUserId, setCurrentUserId] = React.useState();
 
     React.useEffect(() => {
+
+        const jsonPayload = {
+            "userId": userId
+        };
+        axios.post(ChatApi.GET_USER_PROFILE, jsonPayload).then(
+            (response) => {
+                setCurrentUserId(response.data["userId"])
+            }
+        );
+
+
         setInterval(() => {
 
             const jsonPayload = {
@@ -28,6 +41,7 @@ export default function ChatPrivateListResult({userProfile}) {
             )
         }, 1000);
 
+        
     }, []);
 
     const handleChatChange = (event) => {
